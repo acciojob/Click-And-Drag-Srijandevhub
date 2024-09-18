@@ -1,35 +1,35 @@
-// Your code here.
-let isDragging = false;
+const items = document.querySelector(".items");
+
+// Initialize variables to store the state
+let isDown = false;
 let startX;
 let scrollLeft;
 
-const container = document.querySelector('.items');
-
-container.addEventListener('mousedown', (e) => {
-  isDragging = true;
-  startX = e.pageX - container.offsetLeft;
-  scrollLeft = container.scrollLeft;
-  container.classList.add('active');
+// Mouse down event: triggered when the user starts clicking
+items.addEventListener("mousedown", (e) => {
+  isDown = true;
+  items.classList.add("active");
+  startX = e.pageX - items.offsetLeft;
+  scrollLeft = items.scrollLeft;
 });
 
-container.addEventListener('mouseleave', () => {
-  if (isDragging) {
-    isDragging = false;
-    container.classList.remove('active');
-  }
+// Mouse leave event: triggered when the user moves the mouse out of the container
+items.addEventListener("mouseleave", () => {
+  isDown = false;
+  items.classList.remove("active");
 });
 
-container.addEventListener('mouseup', () => {
-  if (isDragging) {
-    isDragging = false;
-    container.classList.remove('active');
-  }
+// Mouse up event: triggered when the user releases the mouse button
+items.addEventListener("mouseup", () => {
+  isDown = false;
+  items.classList.remove("active");
 });
 
-container.addEventListener('mousemove', (e) => {
-  if (!isDragging) return;
-  e.preventDefault();
-  const x = e.pageX - container.offsetLeft;
-  const walk = (x - startX) * 2; // Scroll speed
-  container.scrollLeft = scrollLeft - walk;
+// Mouse move event: triggered when the user moves the mouse
+items.addEventListener("mousemove", (e) => {
+  if (!isDown) return; // Only run if mouse is held down
+  e.preventDefault(); // Prevent default behavior
+  const x = e.pageX - items.offsetLeft; // Get current position of the mouse
+  const walk = (x - startX) * 3; // Calculate the distance moved
+  items.scrollLeft = scrollLeft - walk; // Adjust the scroll position
 });
